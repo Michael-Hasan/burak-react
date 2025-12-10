@@ -48,6 +48,13 @@ export default function Products() {
       .catch((err) => console.log(err));
   }, [productSearch]);
 
+  useEffect(() => {
+    if (searchText === "") {
+      productSearch.search = "";
+      setProductSearch({ ...productSearch });
+    }
+  }, [searchText]);
+
   /* HANDLERS */
 
   const searchCollectionHandler = (collection: ProductCollection) => {
@@ -83,14 +90,27 @@ export default function Products() {
           <Stack className={"avatar-big-box"}>
             <Stack className="top-text">
               <Box className="category-title">Burak Restaraunt</Box>
-              <Box className="search-area">
-                <Box className="placeholder">Type here</Box>
-                <Box className="btn-box">
-                  <Button className="txt">
-                    SEARCH <SearchIcon className="icon" />
-                  </Button>
-                </Box>
-              </Box>
+              <Stack className={"single-search-big-box"}>
+                <input
+                  type={"search"}
+                  className={"single-search-input"}
+                  name={"singleResearch"}
+                  placeholder={"Type here"}
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") searchProductHandler();
+                  }}
+                />
+                <Button
+                  className={"single-button-search"}
+                  variant="contained"
+                  endIcon={<SearchIcon />}
+                  onClick={searchProductHandler}
+                >
+                  Search
+                </Button>
+              </Stack>
             </Stack>
           </Stack>
 
